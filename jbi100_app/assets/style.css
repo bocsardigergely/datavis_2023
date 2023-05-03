@@ -6,17 +6,47 @@ body {
     margin: 0px;
 }
 
-#left-column {
-    padding: 20px 2rem;
+#app-container {
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Adjust the height as needed */
 }
 
-#right-column {
-    background-color: #f4f4f4;
-    padding: 0rem 2rem;
+h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin: 0px;
+}
+
+#left-column {
+    padding: 20px 2rem;
+    /* display: flex;
+    flex-direction: column; */
+    display: inline-block;
     min-height: 100vh;
+    width: 15%;
+    background-color: aquamarine;
+}
+
+#middle-column {
+    padding: 20px 2rem;
+    /* display: flex;
+    flex-direction: column; */
+    display: inline-block;
+    min-height: 100vh;
+    width: 35%;
+    background-color: orange;
+}
+
+
+#right-column {
+    background-color: teal;
+    padding: 0rem 2rem;
+    display: inline-block;
+    min-height: 100vh;
+    width: 35%;
 }
 
 h5 {
@@ -42,7 +72,7 @@ h5 {
 }
 
 .graph_card h6 {
-    margin:  0 7px;
+    margin: 0 7px;
     padding-bottom: 7px;
-    border-bottom:  1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
