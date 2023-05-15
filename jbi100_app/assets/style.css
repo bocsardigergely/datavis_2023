@@ -16,6 +16,7 @@ body {
 #right-column {
     background-color: #f4f4f4;
     padding: 0rem 2rem;
+    flex-direction: column;
     min-height: 100vh;
 }
 
@@ -42,9 +43,9 @@ h5 {
 }
 
 .graph_card h6 {
-    margin:  0 7px;
+    margin: 0 7px;
     padding-bottom: 7px;
-    border-bottom:  1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 .card {

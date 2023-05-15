@@ -52,7 +52,7 @@ class Scatterplot(html.Div):
             style={"textAlign": "left", 'margin-bottom': 10, 'margin-top':10},
         )
 
-    def update(self, x_axis, y_axis, selected_data, player_list = None):
+    def update(self, x_axis, y_axis, selected_data = None, player_list = None):
         self.fig = go.Figure()
 
         if player_list:
@@ -68,7 +68,7 @@ class Scatterplot(html.Div):
             y=y_values,
             mode='markers',
             marker_color='rgb(200,200,200)',
-            hovertext=self.df['player']
+            hovertext=self.df['player'],
         ))
         self.fig.update_traces(mode='markers', marker_size=10)
         self.fig.update_layout(
@@ -81,7 +81,7 @@ class Scatterplot(html.Div):
 
         # highlight points with selection other graph
         if selected_data is None:
-            selected_index = self.df.index  # show all
+            selected_index = self.og_df.index  # show all
         else:
             selected_index = [  # show only selected indices
                 x.get('pointIndex', None)
@@ -105,7 +105,11 @@ class Scatterplot(html.Div):
         )
 
         self.fig.update_layout(
+            autosize=False,
+            width=700,
+            height=370,
             margin=dict(l=30, r=30, t=20, b=20),
         )
 
         return self.fig
+ 

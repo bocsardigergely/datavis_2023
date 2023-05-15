@@ -2,15 +2,23 @@ from jbi100_app.main import app
 from jbi100_app.views.checklist import PlayerList
 from jbi100_app.views.scatterplot import Scatterplot
 from jbi100_app.views.pcpplot import PCPplot
-from jbi100_app.data import load_data
 from dash import html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
+
+# if using macos
+from jbi100_app.data_loader import load_data
+
+# if using windows
+# from jbi100_app.data import load_data
+
+# IMPORTNANT NOTE: adjust the working directory to the root of the project in either data_loader.py or data.py
 
 
 if __name__ == '__main__':
     # Create data
     df = load_data()
+    df = df.fillna(0)
 
     # Instantiate custom views
     scatterplot1 = Scatterplot("Selected team", 'minutes_90s', 'goals_per90', df, "controls_1", 'rgba(200,0,0,0.8)')
@@ -53,7 +61,8 @@ if __name__ == '__main__':
                         children=[
                             pcpplot
                         ]
-                    )
+                    ),
+                    html.Div(id = 'hidden-div', style={'display':'none'}),
                 ]
             )
         ]
@@ -65,7 +74,7 @@ if __name__ == '__main__':
         Output(scatterplot1.html_id, "figure"), [
         Input("x_axis_controls_1", "value"),
         Input("y_axis_controls_1", "value"),
-        Input(scatterplot2.html_id, 'selectedData'),
+        Input("hidden-div", "children"),
         Input("player-checklist", "value")
     ])
     def update_scatter_1(selected_x, selected_y, selected_data, player_list):
@@ -76,11 +85,11 @@ if __name__ == '__main__':
         Output(scatterplot2.html_id, "figure"), [
         Input("x_axis_controls_2", "value"),
         Input("y_axis_controls_2", "value"),
-        Input(scatterplot1.html_id, 'selectedData')
+        Input(scatterplot1.html_id, 'selectedData'),
+        Input("hidden-div", "children")
     ])
-    def update_scatter_2(selected_x, selected_y, selected_data):
-        print(selected_data)
-        return scatterplot2.update(selected_x, selected_y, selected_data)
+    def update_scatter_2(selected_x, selected_y, selected_data, player_list):
+        return scatterplot2.update(selected_x, selected_y, selected_data, player_list)
 
     
     #PCPlot

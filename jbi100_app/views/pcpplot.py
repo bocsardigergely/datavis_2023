@@ -1,8 +1,5 @@
 from dash import dcc, html
 import plotly.graph_objects as go
-import dash_bootstrap_components as dbc
-import plotly.express as px
-from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
 
 
