@@ -95,6 +95,8 @@ def load_data():
     "./Data/FIFA World Cup 2022 Player Images/Images/Images/Group A/Netherlands Players/Images_Xavi Simons/Xavi Simons7.jpg"
     ]
 
-    df['picture'] = pictures    
+    df['picture'] = pictures 
+
+    df['age'] = df['age'].str[:2].astype(int) 
 
     return df

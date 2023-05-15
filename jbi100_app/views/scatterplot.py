@@ -1,62 +1,30 @@
 from dash import dcc, html
 import plotly.graph_objects as go
 import dash_bootstrap_components as dbc
-from ..config import color_list1, color_list2, attribute_list
-import base64
 
 
 class Scatterplot(html.Div):
-    def __init__(self, name, feature_x, feature_y, df, control_id):
+    def __init__(self, name, feature_x, feature_y, df, control_id, color):
         self.html_id = name.lower().replace(" ", "-")
         self.df = df
+        self.og_df = df
         self.attribute_list = df.columns
         self.feature_x = feature_x
         self.feature_y = feature_y
+        self.color = color
 
-        controls = self.generate_axis_control_card(control_id)
-        pictures = self.generate_image_list(control_id)
-
-        # Equivalent to `html.Div([...])`
         super().__init__(
             className="graph_card",
             children=[
                 html.H6(name),
-                pictures,
-                controls,
-                dcc.Graph(id=self.html_id)
+                self.generate_axis_control_card(control_id),
+                dcc.Graph(id=self.html_id, figure={"layout": {"height": 300}})
             ],
         )
-
-    def generate_image_list(self, id):
-
-        cards = []
-
-        for index, row in self.df.iterrows():
-
-            encoded_image = base64.b64encode(open(row['picture'], 'rb').read())
-
-            card = dbc.Card(
-                [
-                    dbc.CardBody(
-                        [
-                            html.Div(
-                                [html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), style={"width": "100%"})]
-                            ),
-                        ],
-                    )
-                ]
-            )
-            cards.append(card)
-
-        row = dbc.Row([dbc.Col(card, width=1) for card in cards])
-
-        return html.Div(children=[row])
-
 
     
     def generate_axis_control_card(self, id):
         """
-
         :return: A Div containing controls for graphs.
         """
         return html.Div(
@@ -81,11 +49,14 @@ class Scatterplot(html.Div):
                     ], width=6)
                 ])
             ],
-            style={"textAlign": "left"}
+            style={"textAlign": "left", 'margin-bottom': 10, 'margin-top':10},
         )
 
-    def update(self, x_axis, y_axis, selected_data):
+    def update(self, x_axis, y_axis, selected_data, player_list = None):
         self.fig = go.Figure()
+
+        if player_list:
+            self.df = self.og_df[self.og_df['player'].isin(player_list)]
 
         self.feature_x = x_axis
         self.feature_y = y_axis
@@ -96,7 +67,8 @@ class Scatterplot(html.Div):
             x=x_values, 
             y=y_values,
             mode='markers',
-            marker_color='rgb(200,200,200)'
+            marker_color='rgb(200,200,200)',
+            hovertext=self.df['player']
         ))
         self.fig.update_traces(mode='markers', marker_size=10)
         self.fig.update_layout(
@@ -120,7 +92,7 @@ class Scatterplot(html.Div):
             selectedpoints=selected_index,
 
             # color of selected points
-            selected=dict(marker=dict(color='seagreen')),
+            selected=dict(marker=dict(color=self.color)),
 
             # color of unselected pts
             unselected=dict(marker=dict(color='rgb(200,200,200)', opacity=0.9))
@@ -130,6 +102,10 @@ class Scatterplot(html.Div):
         self.fig.update_layout(
             xaxis_title=self.feature_x,
             yaxis_title=self.feature_y,
+        )
+
+        self.fig.update_layout(
+            margin=dict(l=30, r=30, t=20, b=20),
         )
 
         return self.fig
