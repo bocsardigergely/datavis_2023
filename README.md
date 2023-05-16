@@ -1,3 +1,8 @@
 # Important setup
 
-please adjust the working directory to the project root in data_loader.py and data.py, and also choose the appropriate option in app.py for your operating system. Windows an UNix stystems handle encoding of certain characters in player image names differently, hence rendering this had-modification necessary.
+In app.py, please choose the appropriate option for your operating system, this is due to different operational systems enoding player names in the image folder in a different way.
+The path to the data also needs to be specified here. The app can then be run via typing `python app.py' in the terminal.
+
+# Code source
+
+The project uses the example code provided by the course, all additions were written by us.
