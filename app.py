@@ -21,7 +21,7 @@ if __name__ == '__main__':
     df = df.fillna(0)
 
     # Instantiate custom views
-    scatterplot1 = Scatterplot("Selected team", 'minutes_90s', 'goals_per90', df, "controls_1", 'rgba(200,0,0,0.8)')
+    scatterplot1 = Scatterplot("Chosen team", 'minutes_90s', 'goals_per90', df, "controls_1", 'rgba(200,0,0,0.8)')
     scatterplot2 = Scatterplot("All players", 'minutes_90s', 'goals_per90', df, "controls_2", 'rgba(0,0,200,0.8)')
     pcpplot = PCPplot("Group averages", df) 
     
@@ -34,7 +34,11 @@ if __name__ == '__main__':
             html.Div(
                 id="left-column",
                 className="two columns",
-                children=player_list.checklist,
+                children=[
+                    html.H5("Player List"),
+                    html.H6("Choose players to add to your team!"),
+                    player_list.checklist,
+                ],
                 style={"overflow": "scroll"}
             ),
 
