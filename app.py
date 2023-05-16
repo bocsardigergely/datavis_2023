@@ -5,12 +5,18 @@ from jbi100_app.views.pcpplot import PCPplot
 from dash import html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
+import os
 
 # if using macos
-from jbi100_app.data_loader import load_data
+from jbi100_app.data_loader_macos import load_data
+# # location of data:
+os.chdir("/Users/gbocsardi/Documents/2. areas/sem_4/dataviz/example")
 
 # if using windows
-# from jbi100_app.data import load_data
+# from jbi100_app.data_loader_windows import load_data
+# # location of data:
+# os.chdir(r"D:\Data Science and Entrepreneurship MSc\DV - Data Visualiztation\JM0250 Data (2022-2023)")
+
 
 # IMPORTNANT NOTE: adjust the working directory to the root of the project in either data_loader.py or data.py
 
@@ -24,9 +30,9 @@ if __name__ == '__main__':
     scatterplot1 = Scatterplot("Chosen team", 'minutes_90s', 'goals_per90', df, "controls_1", 'rgba(200,0,0,0.8)')
     scatterplot2 = Scatterplot("All players", 'minutes_90s', 'goals_per90', df, "controls_2", 'rgba(0,0,200,0.8)')
     pcpplot = PCPplot("Group averages", df) 
-    
     player_list = PlayerList(df)
 
+    # Set up page layout
     app.layout = html.Div(
         id="app-container",
         children=[
@@ -95,7 +101,6 @@ if __name__ == '__main__':
     def update_scatter_2(selected_x, selected_y, selected_data, player_list):
         return scatterplot2.update(selected_x, selected_y, selected_data, player_list)
 
-    
     #PCPlot
     @app.callback(
         Output(pcpplot.html_id, "figure"), [

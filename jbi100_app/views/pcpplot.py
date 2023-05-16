@@ -2,7 +2,7 @@ from dash import dcc, html
 import plotly.graph_objects as go
 import pandas as pd
 
-
+# Parallel coordinates plot for the bottom
 class PCPplot(html.Div):
     def __init__(self, name, df):
         self.html_id = name.lower().replace(" ", "-") + "pcp"
@@ -27,12 +27,7 @@ class PCPplot(html.Div):
         
         self.list1 = player_list
 
-        #scaler = MinMaxScaler()
-        #print("hjghklájghjfhkjhlihhfg")
-
-        # let's start by calculating the group averages based on the lists
-        # which will once be part of the arguments to this function
-
+        # Calculate group and subgroup averages
         data = {
             'players_list': ['list1', 'list2'],
             'age': [self.calculate_averages(self.list1, self.df)['age'], self.calculate_averages(self.list2, self.df)['age']],
@@ -48,7 +43,7 @@ class PCPplot(html.Div):
 
         self.fig = go.Figure()
 
-        
+        # Create the pcp
         self.fig.add_trace(
             go.Parcoords(
                 line = dict(color = avg_df.index, colorscale = [[0,'rgba(200,0,0,0.1)'],[1,'rgba(0,0,200,0.1)']]),

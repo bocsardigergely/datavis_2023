@@ -25,7 +25,7 @@ class Scatterplot(html.Div):
     
     def generate_axis_control_card(self, id):
         """
-        :return: A Div containing controls for graphs.
+        :return: A Div containing the axis selectors for the scatterplot.
         """
         return html.Div(
             id=id,
@@ -53,11 +53,16 @@ class Scatterplot(html.Div):
         )
 
     def update(self, x_axis, y_axis, selected_data = None, player_list = None):
+        """
+        :return: Updated figure after modifying actions performed
+        """
         self.fig = go.Figure()
 
+        # If only some players are shown, the list is filtered here
         if player_list:
             self.df = self.og_df[self.og_df['player'].isin(player_list)]
 
+        # Set axes
         self.feature_x = x_axis
         self.feature_y = y_axis
 
@@ -104,6 +109,7 @@ class Scatterplot(html.Div):
             yaxis_title=self.feature_y,
         )
 
+        # Size and margins of plot
         self.fig.update_layout(
             autosize=False,
             width=700,

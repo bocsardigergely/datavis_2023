@@ -1,8 +1,6 @@
 import pandas as pd
 import os
 
-os.chdir("/Users/gbocsardi/Documents/2. areas/sem_4/dataviz/example")
-
 
 def load_data():
     df_player_passing = pd.read_csv(

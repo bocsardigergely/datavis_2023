@@ -1,7 +1,7 @@
 from dash import dcc, html
 import base64
 
-
+# Player checklist for the left column
 class PlayerList:
     def __init__(self, df):
         self.df = df
